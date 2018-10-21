@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from scipy import signal
-import json
 
 
 def import_data(filepath):
@@ -14,10 +13,9 @@ def import_data(filepath):
         time: array of time values
         voltage: array of voltage values
     """
-    headers = ['time', 'voltage']
-    data = pd.read_csv(filepath, names=headers)
-    time = data['time']
-    voltage = data['voltage']
+    data = np.loadtxt(filepath, delimiter=",")
+    time = data[:, 0]
+    voltage = data[:, 1]
     return time, voltage
 
 
@@ -137,30 +135,8 @@ def calc_bpm(num_beats, dur):
     return bpm
 
 
-#def create_dict(bpm, both, dur, num_beats, beat_times):
-    """
-    Creates dictionary of necessary output values
-
-    Args:
-        bpm: average beats per minute
-        both: tuple containing voltage extremes
-        dur: duration of ECG signal
-        num_beats: number of beats in ECG signal
-        beat_times: array of times when beat occurred
-    Returns:
-        metrics: dictionary values of metrics
-    """
-    #metrics = {
-        #"mean_hr_bpm": bpm,
-        #"voltage extremes": both,
-        #"duration": dur,
-        #"num_beats": num_beats,
-        #"beats": beat_times}
-    #return metrics
-
-
 def main():
-    filepath = "test_data/test_data1.csv"
+    filepath = "test_data/test_data2.csv"
     [time, voltage] = import_data(filepath)
     dur = calc_duration(time)
     fs = calc_sample_freq(time)
@@ -170,7 +146,6 @@ def main():
     beat_times = where_peaks(time, corr, fs)
     num_beats = num_beat(beat_times)
     bpm = calc_bpm(num_beats, dur)
-    #metrics = create_dict(bpm, both, dur, num_beats, beat_times)
 
 
 if __name__ == "__main__":
