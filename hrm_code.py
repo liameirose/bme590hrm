@@ -1,6 +1,11 @@
 import numpy as np
-import pandas as pd
 from scipy import signal
+import logging
+import json
+
+
+logging.basicConfig(filename='logging.txt', format='%(asctime)s %(message)s',
+                    datefmt='%m/%d/%Y &I:%M:%S %p', level=logging.DEBUG)
 
 
 def import_data(filepath):
@@ -13,6 +18,11 @@ def import_data(filepath):
         time: array of time values
         voltage: array of voltage values
     """
+    if filepath.endswith('.csv'):
+        pass
+    else:
+        raise IOError("The file imported is not a csv file. Please import a csv file.")
+
     data = np.loadtxt(filepath, delimiter=",")
     time = data[:, 0]
     voltage = data[:, 1]
@@ -28,7 +38,7 @@ def calc_duration(time):
     Returns:
         dur: duration of ECG signal
     """
-    dur = time.max()-time.min()
+    dur = np.amax(time)-np.amin(time)
     return dur
 
 
@@ -41,8 +51,8 @@ def find_max_min_volt(voltage):
     Returns:
         both: vector containing both the minimum and maximum voltages
     """
-    max_volt = voltage.max()
-    min_volt = voltage.min()
+    max_volt = np.amax(voltage)
+    min_volt = np.amin(voltage)
     both = [min_volt, max_volt]
     return both
 
@@ -74,7 +84,7 @@ def filter_signal(voltage):
     return filtered_volt
 
 
-def correlate_signal(filtered_volt, fs):
+def correlate_signal(time, filtered_volt, fs):
     """
     Performs correlation of filtered data with a kernel of the normalized data from 0 to the sampling frequency
 
@@ -84,7 +94,7 @@ def correlate_signal(filtered_volt, fs):
     Returns:
         corr: array of correlated voltage values
     """
-    normalize = (filtered_volt-np.min(filtered_volt))/(np.max(filtered_volt)-filtered_volt)
+    normalize = filtered_volt - np.mean(filtered_volt)
     corr_with = normalize[0: int(fs)]
     corr = np.correlate(np.squeeze(filtered_volt), np.squeeze(corr_with), 'full')
     return corr
@@ -104,6 +114,7 @@ def where_peaks(time, corr, fs):
     peaks = signal.find_peaks_cwt(corr, np.arange(1, int(fs)))
     beats = peaks
     beat_times = time[beats]
+    beat_times = list(beat_times)
     return beat_times
 
 
@@ -135,17 +146,57 @@ def calc_bpm(num_beats, dur):
     return bpm
 
 
+def create_metrics(bpm, beat_times, both, dur, num_beats):
+    """
+    Creates metrics dictionary
+
+    Args:
+        bpm: average beats per minute
+        beat_times: array of times when beats occur
+        both: vector containing minimum and maximum voltage
+        dur: duration of the ECG signal
+        num_beats: number of beats that occurred during the signal
+    Returns:
+        metrics: dictionary of appropriate metrics from signal
+    """
+    metrics = {
+        "mean_hr_bpm": bpm,
+        "voltage extremes": both,
+        "duration": dur,
+        "num_beats": num_beats,
+        "beats": beat_times
+    }
+    return metrics
+
+
+#def create_jason(filepath, metrics):
+    """
+    Creates a jason file with metrics dictionary
+
+    Args:
+        filepath: csv file path
+        metrics: dictionary of appropriate metrics from signal
+    """
+    #json_name = filepath.replace('.csv', '.json')
+    #jsonfile = open(json_name, 'w')
+    #json.dump(metrics, jsonfile)
+
+    #logging.info('INFO: Successful creation .json file')
+
+
 def main():
-    filepath = "test_data/test_data2.csv"
+    filepath = "test_data/test_data1.csv"
     [time, voltage] = import_data(filepath)
     dur = calc_duration(time)
     fs = calc_sample_freq(time)
     filtered_volt = filter_signal(voltage)
     both = find_max_min_volt(voltage)
-    corr = correlate_signal(voltage, fs)
+    corr = correlate_signal(time, filtered_volt, fs)
     beat_times = where_peaks(time, corr, fs)
     num_beats = num_beat(beat_times)
     bpm = calc_bpm(num_beats, dur)
+    metrics = create_metrics(bpm, beat_times, both, dur, num_beats)
+    #create_jason(filepath, metrics)
 
 
 if __name__ == "__main__":
