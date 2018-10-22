@@ -1,6 +1,13 @@
 import numpy as np
-import pandas as pd
 from scipy import signal
+import pandas as pd
+import logging
+import math
+import json
+
+
+logging.basicConfig(filename='logging.txt', format='%(asctime)s %(message)s',
+                    datefmt='%m/%d/%Y &I:%M:%S %p', level=logging.DEBUG)
 
 
 def import_data(filepath):
@@ -13,6 +20,11 @@ def import_data(filepath):
         time: array of time values
         voltage: array of voltage values
     """
+    if filepath.endswith('.csv'):
+        pass
+    else:
+        raise IOError("The file imported is not a csv file. Please import a csv file.")
+
     data = np.loadtxt(filepath, delimiter=",")
     time = data[:, 0]
     voltage = data[:, 1]
@@ -28,7 +40,7 @@ def calc_duration(time):
     Returns:
         dur: duration of ECG signal
     """
-    dur = time.max()-time.min()
+    dur = np.amax(time)-np.amin(time)
     return dur
 
 
@@ -41,8 +53,8 @@ def find_max_min_volt(voltage):
     Returns:
         both: vector containing both the minimum and maximum voltages
     """
-    max_volt = voltage.max()
-    min_volt = voltage.min()
+    max_volt = np.amax(voltage)
+    min_volt = np.amin(voltage)
     both = [min_volt, max_volt]
     return both
 
@@ -74,50 +86,60 @@ def filter_signal(voltage):
     return filtered_volt
 
 
-def correlate_signal(filtered_volt, fs):
+def detect_peak(filtered_volt, fs, hrw):
     """
-    Performs correlation of filtered data with a kernel of the normalized data from 0 to the sampling frequency
+    Function finds index of peaks using a moving average
+    Adapted from: Analyzing a Discrete Heart Rate Signal Using Python-Part 1 (palkab)
+    http://www.paulvangent.com/2016/03/15/analyzing-a-discrete-heart-rate-signal-using-python-part-1/
 
     Args:
         filtered_volt: array of filtered voltage values
-        fs: sampling frequency of the ECG
+        fs: sampling frequency of ECG
+        hrw: user-input multiplication factor for the moving average input
     Returns:
-        corr: array of correlated voltage values
+        peaklist: index of where peaks occur
     """
-    normalize = (filtered_volt-np.min(filtered_volt))/(np.max(filtered_volt)-filtered_volt)
-    corr_with = normalize[0: int(fs)]
-    corr = np.correlate(np.squeeze(filtered_volt), np.squeeze(corr_with), 'full')
-    return corr
+    filtered_volt = pd.Series(data=filtered_volt)
+    mov_avg = filtered_volt.rolling(int(hrw * fs)).mean()
+    avg_hr = (np.mean(filtered_volt))
+    mov_avg = [avg_hr if math.isnan(x) else x for x in mov_avg]
+    mov_avg = [(x + abs(avg_hr - abs(np.amin(filtered_volt) / 2))) * 1.2 for x in mov_avg]
+    window = []
+    peaklist = []
+    pos = 0
+    for datapoint in filtered_volt:
+        rollingmean = mov_avg[pos]
+        if (datapoint < rollingmean) and (len(window) < 1):
+            pos += 1
+        elif (datapoint > rollingmean):
+            window.append(datapoint)
+            pos += 1
+            if (pos >= len(filtered_volt)):
+                beatposition = pos - len(window) + (window.index(max(window)))
+                peaklist.append(beatposition)
+                window = []
+        else:
+            beatposition = pos - len(window) + (window.index(max(window)))
+            peaklist.append(beatposition)
+            window = []
+            pos += 1
+    return peaklist
 
 
-def where_peaks(time, corr, fs):
-    """
-    Finds the location of the peaks from the correlated voltage signal
-
-    Args:
-        time: array of time values
-        corr: correlated voltage values
-        fs:
-    Returns:
-        beat_times: array of times when a beat occurred
-    """
-    peaks = signal.find_peaks_cwt(corr, np.arange(1, int(fs)))
-    beats = peaks
-    beat_times = time[beats]
-    return beat_times
-
-
-def num_beat(beat_times):
+def num_beat(time, peaklist):
     """
     Determines the number of beats that occurred during the ECG signal
 
     Args:
-        beat_times: array of times when a beat occurred
+        peaklist: array of times when a beat occurred
+        time:
     Returns:
         num_beats: value stating number of total beats
+        beats: array of times when beats occurred
     """
-    num_beats = len(beat_times)
-    return num_beats
+    num_beats = len(peaklist)
+    beats = time[peaklist]
+    return num_beats, beats
 
 
 def calc_bpm(num_beats, dur):
@@ -131,21 +153,59 @@ def calc_bpm(num_beats, dur):
         bpm: average beats per minute
     """
     bpm = num_beats/(dur/60)
-    print(bpm)
     return bpm
 
 
+def create_metrics(bpm, beats, both, dur, num_beats):
+    """
+    Creates metrics dictionary
+
+    Args:
+        bpm: average beats per minute
+        beats: array of times when beats occur
+        both: vector containing minimum and maximum voltage
+        dur: duration of the ECG signal
+        num_beats: number of beats that occurred during the signal
+    Returns:
+        metrics: dictionary of appropriate metrics from signal
+    """
+    metrics = {
+        "mean_hr_bpm": bpm,
+        "voltage extremes": both,
+        "duration": dur,
+        "num_beats": num_beats,
+        "beats": beats
+    }
+    return metrics
+
+
+#def create_jason(filepath, metrics):
+    """
+    Creates a jason file with metrics dictionary
+
+    Args:
+        filepath: csv file path
+        metrics: dictionary of appropriate metrics from signal
+    """
+    #json_name = filepath.replace('.csv', '.json')
+    #jsonfile = open(json_name, 'w')
+    #json.dump(metrics, jsonfile)
+
+    #logging.info('INFO: Successful creation .json file')
+
+
 def main():
-    filepath = "test_data/test_data2.csv"
+    filepath = "test_data/test_data1.csv"
     [time, voltage] = import_data(filepath)
     dur = calc_duration(time)
     fs = calc_sample_freq(time)
     filtered_volt = filter_signal(voltage)
     both = find_max_min_volt(voltage)
-    corr = correlate_signal(voltage, fs)
-    beat_times = where_peaks(time, corr, fs)
-    num_beats = num_beat(beat_times)
+    peaklist = detect_peak(filtered_volt, fs, 0.5)
+    [num_beats, beats] = num_beat(time, peaklist)
     bpm = calc_bpm(num_beats, dur)
+    metrics = create_metrics(bpm, beats, both, dur, num_beats)
+    #create_jason(filepath, metrics)
 
 
 if __name__ == "__main__":
