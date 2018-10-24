@@ -4,10 +4,23 @@ import pandas as pd
 import logging
 import math
 import json
+import csv
 
 
 logging.basicConfig(filename='logging.txt', format='%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y &I:%M:%S %p', level=logging.DEBUG)
+
+
+def number_please(input):
+    try:
+        float(input)
+        if np.isreal(float(input)):
+            return True
+        else:
+            raise ValueError
+    except ValueError:
+        logging.warning("Data contains non-real or non-numerical value(s)")
+        return False
 
 
 def import_data(filepath):
@@ -25,9 +38,23 @@ def import_data(filepath):
     else:
         raise IOError("The file imported is not a csv file. Please import a csv file.")
 
-    data = np.loadtxt(filepath, delimiter=",")
-    time = data[:, 0]
-    voltage = data[:, 1]
+    try:
+        file = open(filepath, 'r')
+    except FileNotFoundError:
+        raise FileNotFoundError('File not found, input an new path')
+
+    time = []
+    voltage = []
+    temp_data = csv.reader(file, delimiter=',')
+
+    for row in temp_data:
+        if (number_please(row[0])) and (number_please(row[1])):
+            temp_time = float(row[0])
+            temp_volt = float(row[1])
+
+            time.append(temp_time)
+            voltage.append(temp_volt)
+
     return time, voltage
 
 
@@ -41,6 +68,9 @@ def calc_duration(time):
         dur: duration of ECG signal
     """
     dur = np.amax(time)-np.amin(time)
+    if dur < 10:
+        logging.info("Warning: Duration of signal is less than 10 seconds. ")
+
     return dur
 
 
@@ -55,6 +85,8 @@ def find_max_min_volt(voltage):
     """
     max_volt = np.amax(voltage)
     min_volt = np.amin(voltage)
+    if abs(max_volt) > 300 or abs(min_volt) > 300:
+        logging.warning("Warning: Voltage is out of ECG range")
     both = [min_volt, max_volt]
     return both
 
@@ -95,7 +127,7 @@ def detect_peak(filtered_volt, fs, hrw):
     Args:
         filtered_volt: array of filtered voltage values
         fs: sampling frequency of ECG
-        hrw: user-input multiplication factor for the moving average input
+        hrw: user-input multiplication factor for the moving average input to determine the window
     Returns:
         peaklist: index of where peaks occur
     """
@@ -111,10 +143,10 @@ def detect_peak(filtered_volt, fs, hrw):
         rollingmean = mov_avg[pos]
         if (datapoint < rollingmean) and (len(window) < 1):
             pos += 1
-        elif (datapoint > rollingmean):
+        elif datapoint > rollingmean:
             window.append(datapoint)
             pos += 1
-            if (pos >= len(filtered_volt)):
+            if pos >= len(filtered_volt):
                 beatposition = pos - len(window) + (window.index(max(window)))
                 peaklist.append(beatposition)
                 window = []
@@ -132,13 +164,16 @@ def num_beat(time, peaklist):
 
     Args:
         peaklist: array of times when a beat occurred
-        time:
+        time: time array of ECG signals
     Returns:
         num_beats: value stating number of total beats
         beats: array of times when beats occurred
     """
     num_beats = len(peaklist)
-    beats = time[peaklist]
+    beats = []
+    for i in peaklist:
+        beats.append(time[i])
+    beats = np.array(beats).tolist()
     return num_beats, beats
 
 
@@ -153,6 +188,11 @@ def calc_bpm(num_beats, dur):
         bpm: average beats per minute
     """
     bpm = num_beats/(dur/60)
+
+    if bpm > 180:
+        logging.warning("Average heart rate detected to be more than 180 bpm.")
+    if bpm < 40:
+        logging.warning("Average heart rate detected to be less than 40 bpm.")
     return bpm
 
 
@@ -179,7 +219,7 @@ def create_metrics(bpm, beats, both, dur, num_beats):
     return metrics
 
 
-#def create_jason(filepath, metrics):
+def create_jason(filepath, metrics):
     """
     Creates a jason file with metrics dictionary
 
@@ -187,15 +227,19 @@ def create_metrics(bpm, beats, both, dur, num_beats):
         filepath: csv file path
         metrics: dictionary of appropriate metrics from signal
     """
-    #json_name = filepath.replace('.csv', '.json')
-    #jsonfile = open(json_name, 'w')
-    #json.dump(metrics, jsonfile)
+    try:
+        json_name = filepath.replace('.csv', '.json')
+        with open(json_name, "w") as outfile:
+            json.dump(metrics, outfile)
+        logging.info('INFO: Successful creation .json file')
 
-    #logging.info('INFO: Successful creation .json file')
+    except TypeError:
+        print('Invalid json input')
+        logging.debug('Error: json Output')
 
 
 def main():
-    filepath = "test_data/test_data1.csv"
+    filepath = "test_data/test_data8.csv"
     [time, voltage] = import_data(filepath)
     dur = calc_duration(time)
     fs = calc_sample_freq(time)
@@ -205,7 +249,8 @@ def main():
     [num_beats, beats] = num_beat(time, peaklist)
     bpm = calc_bpm(num_beats, dur)
     metrics = create_metrics(bpm, beats, both, dur, num_beats)
-    #create_jason(filepath, metrics)
+    create_jason(filepath, metrics)
+    logging.info('INFO: Program has ended.')
 
 
 if __name__ == "__main__":

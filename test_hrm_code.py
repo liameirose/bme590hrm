@@ -1,5 +1,3 @@
-import numpy as np
-
 def test_import_data():
     from hrm_code import import_data
     [time, voltage] = import_data("test_data/test_data2.csv")
@@ -30,8 +28,8 @@ def test_calc_freq():
 
 def test_num_beat():
     from hrm_code import num_beat
-    fake_time = [0, 0.5, 1, 1.5, 2, 2.5, 3]
     fake_peaklist = [1, 3, 4]
+    fake_time = [0, 0.5, 1, 1.5, 2, 2.5, 3]
     [num_beats, beats] = num_beat(fake_time, fake_peaklist)
     assert num_beats == 3
     assert beats == [0.5, 1.5, 2]
