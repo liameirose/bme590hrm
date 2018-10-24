@@ -1,0 +1,45 @@
+10/22/2018 &I:13:37 AM INFO: Created .json file
+10/22/2018 &I:14:29 AM INFO: Created .json file
+10/22/2018 &I:17:54 PM File does not contain float values
+10/22/2018 &I:12:45 PM Error: json output
+10/22/2018 &I:12:45 PM Error: json output
+10/22/2018 &I:25:51 PM Error: json Output
+10/22/2018 &I:33:10 PM Error: json Output
+10/23/2018 &I:57:37 PM Error: json Output
+10/23/2018 &I:10:38 PM INFO: Successful creation .json file
+10/23/2018 &I:10:38 PM Info: Program has ended.
+10/23/2018 &I:15:58 PM INFO: Successful creation .json file
+10/23/2018 &I:15:58 PM Info: Program has ended.
+10/23/2018 49:33 PM INFO: Successful creation .json file
+10/23/2018 49:33 PM Info: Program has ended.
+10/23/2018 &I:35:43 PM INFO: Successful creation .json file
+10/23/2018 &I:35:43 PM Info: Program has ended.
+10/23/2018 &I:36:17 PM INFO: Successful creation .json file
+10/23/2018 &I:36:17 PM Info: Program has ended.
+10/23/2018 &I:36:30 PM INFO: Successful creation .json file
+10/23/2018 &I:36:30 PM Info: Program has ended.
+10/23/2018 &I:36:46 PM INFO: Successful creation .json file
+10/23/2018 &I:36:46 PM Info: Program has ended.
+10/23/2018 &I:37:09 PM INFO: Successful creation .json file
+10/23/2018 &I:37:09 PM Info: Program has ended.
+10/23/2018 &I:58:15 PM INFO: Successful creation .json file
+10/23/2018 &I:58:15 PM Info: Program has ended.
+10/24/2018 &I:01:39 PM INFO: Successful creation .json file
+10/24/2018 &I:01:39 PM Info: Program has ended.
+10/24/2018 &I:16:19 PM Data contains non-real or non-numerical value(s)
+10/24/2018 &I:16:19 PM Data contains non-real or non-numerical value(s)
+10/24/2018 &I:16:21 PM Average heart rate detected to be more than 180 bpm.
+10/24/2018 &I:16:21 PM INFO: Successful creation .json file
+10/24/2018 &I:16:21 PM Info: Program has ended.
+10/24/2018 &I:17:03 PM Data contains non-real or non-numerical value(s)
+10/24/2018 &I:17:03 PM Data contains non-real or non-numerical value(s)
+10/24/2018 &I:17:05 PM INFO: Successful creation .json file
+10/24/2018 &I:17:05 PM Info: Program has ended.
+10/24/2018 &I:19:23 PM Data contains non-real or non-numerical value(s)
+10/24/2018 &I:19:23 PM Data contains non-real or non-numerical value(s)
+10/24/2018 &I:19:25 PM Average heart rate detected to be more than 180 bpm.
+10/24/2018 &I:19:25 PM INFO: Successful creation .json file
+10/24/2018 &I:19:25 PM Info: Program has ended.
+10/24/2018 &I:21:19 PM Average heart rate detected to be less than 40 bpm.
+10/24/2018 &I:21:19 PM INFO: Successful creation .json file
+10/24/2018 &I:21:19 PM INFO: Program has ended.
