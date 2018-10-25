@@ -1,5 +1,5 @@
 # bme590hrm
-####TO RUN:
+#### TO RUN:
 
 The main file is hrm_code.py. In order to run a certain file, please go down to
 the main() function and change the variable filepath to the appropriate file path. This 
@@ -8,11 +8,11 @@ It currently calculates the mean heart rate based on the duration of the entire 
 signal; however, a user can input their own duration into the function calc_bpm to change
 the duration it uses to calculate bpm. 
 
-####TEST PYTHON SCRIPT:
+#### TEST PYTHON SCRIPT:
 The test_hrm_code.py is the python file which tests the functions. Currently, coverage is
 at 83%. I am still missing a function to test the filter_signal function in hrm_code.py.
 
-####PEAK DETECTION:
+#### PEAK DETECTION:
 
 My peak detection function works by applying a moving average to the data. This function
 is based off of "Analyzing a Discrete Heart Signal Using Python" by Paul van Gent (1).
@@ -24,7 +24,7 @@ maximum of that region and tags it as a peak.
 1. van Gent, P. (2016). Analyzing a Discrete Heart Rate Signal Using Python. A tech blog about fun things with Python and embedded electronics. Retrieved from: http://www.paulvangent.com/2016/03/15/analyzing-a-discrete-heart-rate-signal-using-python-part-1/
 
 
-####JSON FILES:
+#### JSON FILES:
 
 .json files can be found in the test_data folder. The code runs for all files, 
 except for 28. There are corresponding .json files for all files except for 28, which is 
@@ -32,7 +32,7 @@ the cursed file. However, sometimes the moving average does not identify any pea
 (files 9 and 20) and that definitely is wrong.
 
 
-####FUTURE (SUNDAY(S)) WORK:
+#### FUTURE (SUNDAY(S)) WORK:
 
 * __Peak Identification:__ The moving average function is not the best way to identify peaks in the signal. I tried
 correlation when I was first starting the project; however, I could never compute the correct beat times
