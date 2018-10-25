@@ -12,6 +12,14 @@ logging.basicConfig(filename='logging.txt', format='%(asctime)s %(message)s',
 
 
 def number_please(input):
+    """
+    Function checks to see if the number is real and it is a float.
+
+    Args:
+        input: number(s) to check
+    Returns:
+        boolean: states whether the value(s) are real or not
+    """
     try:
         float(input)
         if np.isreal(float(input)):
@@ -25,7 +33,8 @@ def number_please(input):
 
 def import_data(filepath):
     """
-    Imports data file from specified file name AND path and returns time and voltage arrays
+    Imports data file from specified file name AND path and returns
+    time and voltage arrays
 
     Args:
         filepath: csv file to be imported
@@ -36,7 +45,8 @@ def import_data(filepath):
     if filepath.endswith('.csv'):
         pass
     else:
-        raise IOError("The file imported is not a csv file. Please import a csv file.")
+        raise IOError("The file imported is not a csv file. "
+                      "Please import a csv file.")
 
     try:
         file = open(filepath, 'r')
@@ -54,6 +64,9 @@ def import_data(filepath):
 
             time.append(temp_time)
             voltage.append(temp_volt)
+
+    if time == [] or voltage == []:
+        logging.error('Time or voltage data is empty')
 
     return time, voltage
 
@@ -107,7 +120,8 @@ def calc_sample_freq(time):
 def filter_signal(voltage):
     """
     Filters the voltage signal with a Savitzky-Golay filter
-    Window length of 17 (must be odd) and order of 3 (must be less than window length)
+    Window length of 17 (must be odd) and order of 3
+    (must be less than window length)
 
     Args:
         voltage: array of voltage values
@@ -121,13 +135,15 @@ def filter_signal(voltage):
 def detect_peak(filtered_volt, fs, hrw):
     """
     Function finds index of peaks using a moving average
-    Adapted from: Analyzing a Discrete Heart Rate Signal Using Python-Part 1 (palkab)
-    http://www.paulvangent.com/2016/03/15/analyzing-a-discrete-heart-rate-signal-using-python-part-1/
+    Adapted from: Analyzing a Discrete Heart Rate Signal Using Python-Part 1
+    http://www.paulvangent.com/2016/03/15/
+    analyzing-a-discrete-heart-rate-signal-using-python-part-1/
 
     Args:
         filtered_volt: array of filtered voltage values
         fs: sampling frequency of ECG
-        hrw: user-input multiplication factor for the moving average input to determine the window
+        hrw: user-input multiplication factor for the moving average
+             input to determine the window
     Returns:
         peaklist: index of where peaks occur
     """
@@ -135,7 +151,8 @@ def detect_peak(filtered_volt, fs, hrw):
     mov_avg = filtered_volt.rolling(int(hrw * fs)).mean()
     avg_hr = (np.mean(filtered_volt))
     mov_avg = [avg_hr if math.isnan(x) else x for x in mov_avg]
-    mov_avg = [(x + abs(avg_hr - abs(np.amin(filtered_volt) / 2))) * 1.2 for x in mov_avg]
+    mov_avg = [(x + abs(avg_hr - abs(np.amin(filtered_volt) / 2))) * 1.2
+               for x in mov_avg]
     window = []
     peaklist = []
     pos = 0
@@ -239,7 +256,7 @@ def create_jason(filepath, metrics):
 
 
 def main():
-    filepath = "test_data/test_data8.csv"
+    filepath = "test_data/test_data9.csv"
     [time, voltage] = import_data(filepath)
     dur = calc_duration(time)
     fs = calc_sample_freq(time)
@@ -255,5 +272,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
