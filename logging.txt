@@ -43,3 +43,22 @@
 10/24/2018 &I:21:19 PM Average heart rate detected to be less than 40 bpm.
 10/24/2018 &I:21:19 PM INFO: Successful creation .json file
 10/24/2018 &I:21:19 PM INFO: Program has ended.
+10/24/2018 &I:50:37 PM Average heart rate detected to be less than 40 bpm.
+10/24/2018 &I:50:37 PM INFO: Successful creation .json file
+10/24/2018 &I:50:37 PM INFO: Program has ended.
+10/24/2018 &I:44:10 PM Average heart rate detected to be less than 40 bpm.
+10/24/2018 &I:44:10 PM INFO: Successful creation .json file
+10/24/2018 &I:44:10 PM INFO: Program has ended.
+10/24/2018 &I:45:07 PM Average heart rate detected to be less than 40 bpm.
+10/24/2018 &I:45:08 PM INFO: Successful creation .json file
+10/24/2018 &I:45:08 PM INFO: Program has ended.
+10/25/2018 &I:58:25 AM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:58:25 AM INFO: Successful creation .json file
+10/25/2018 &I:58:25 AM INFO: Program has ended.
+10/25/2018 &I:01:00 AM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:01:00 AM INFO: Successful creation .json file
+10/25/2018 &I:01:00 AM INFO: Program has ended.
+10/25/2018 &I:09:48 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:09:48 PM INFO: Successful creation .json file
+10/25/2018 &I:09:48 PM INFO: Program has ended.
+10/25/2018 &I:10:53 PM Average heart rate detected to be less than 40 bpm.
