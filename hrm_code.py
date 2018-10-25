@@ -256,7 +256,7 @@ def create_jason(filepath, metrics):
 
 
 def main():
-    filepath = "test_data/test_data9.csv"
+    filepath = "test_data/test_data2.csv"
     [time, voltage] = import_data(filepath)
     dur = calc_duration(time)
     fs = calc_sample_freq(time)

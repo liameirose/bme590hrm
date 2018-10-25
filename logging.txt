@@ -62,3 +62,87 @@
 10/25/2018 &I:09:48 PM INFO: Successful creation .json file
 10/25/2018 &I:09:48 PM INFO: Program has ended.
 10/25/2018 &I:10:53 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:47:22 PM INFO: Successful creation .json file
+10/25/2018 &I:47:22 PM INFO: Program has ended.
+10/25/2018 &I:48:21 PM INFO: Successful creation .json file
+10/25/2018 &I:48:21 PM INFO: Program has ended.
+10/25/2018 &I:50:05 PM INFO: Successful creation .json file
+10/25/2018 &I:50:05 PM INFO: Program has ended.
+10/25/2018 &I:50:06 PM INFO: Successful creation .json file
+10/25/2018 &I:50:06 PM INFO: Program has ended.
+10/25/2018 &I:52:14 PM INFO: Successful creation .json file
+10/25/2018 &I:52:14 PM INFO: Program has ended.
+10/25/2018 &I:52:37 PM INFO: Successful creation .json file
+10/25/2018 &I:52:37 PM INFO: Program has ended.
+10/25/2018 &I:55:46 PM INFO: Successful creation .json file
+10/25/2018 &I:55:46 PM INFO: Program has ended.
+10/25/2018 &I:55:58 PM INFO: Successful creation .json file
+10/25/2018 &I:55:58 PM INFO: Program has ended.
+10/25/2018 &I:06:30 PM INFO: Successful creation .json file
+10/25/2018 &I:06:30 PM INFO: Program has ended.
+10/25/2018 &I:06:43 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:06:43 PM INFO: Successful creation .json file
+10/25/2018 &I:06:43 PM INFO: Program has ended.
+10/25/2018 &I:06:52 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:06:52 PM INFO: Successful creation .json file
+10/25/2018 &I:06:52 PM INFO: Program has ended.
+10/25/2018 &I:08:06 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:08:06 PM INFO: Successful creation .json file
+10/25/2018 &I:08:06 PM INFO: Program has ended.
+10/25/2018 &I:08:20 PM INFO: Successful creation .json file
+10/25/2018 &I:08:20 PM INFO: Program has ended.
+10/25/2018 &I:08:43 PM Average heart rate detected to be more than 180 bpm.
+10/25/2018 &I:08:43 PM INFO: Successful creation .json file
+10/25/2018 &I:08:43 PM INFO: Program has ended.
+10/25/2018 &I:08:54 PM Average heart rate detected to be more than 180 bpm.
+10/25/2018 &I:08:54 PM INFO: Successful creation .json file
+10/25/2018 &I:08:54 PM INFO: Program has ended.
+10/25/2018 &I:09:06 PM INFO: Successful creation .json file
+10/25/2018 &I:09:06 PM INFO: Program has ended.
+10/25/2018 &I:09:19 PM INFO: Successful creation .json file
+10/25/2018 &I:09:19 PM INFO: Program has ended.
+10/25/2018 &I:11:31 PM INFO: Successful creation .json file
+10/25/2018 &I:11:31 PM INFO: Program has ended.
+10/25/2018 &I:11:46 PM INFO: Successful creation .json file
+10/25/2018 &I:11:46 PM INFO: Program has ended.
+10/25/2018 &I:11:56 PM INFO: Successful creation .json file
+10/25/2018 &I:11:56 PM INFO: Program has ended.
+10/25/2018 &I:12:14 PM INFO: Successful creation .json file
+10/25/2018 &I:12:14 PM INFO: Program has ended.
+10/25/2018 &I:12:25 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:12:25 PM INFO: Successful creation .json file
+10/25/2018 &I:12:25 PM INFO: Program has ended.
+10/25/2018 &I:12:36 PM INFO: Successful creation .json file
+10/25/2018 &I:12:36 PM INFO: Program has ended.
+10/25/2018 &I:12:49 PM INFO: Successful creation .json file
+10/25/2018 &I:12:49 PM INFO: Program has ended.
+10/25/2018 &I:12:59 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:12:59 PM INFO: Successful creation .json file
+10/25/2018 &I:12:59 PM INFO: Program has ended.
+10/25/2018 &I:13:11 PM INFO: Successful creation .json file
+10/25/2018 &I:13:11 PM INFO: Program has ended.
+10/25/2018 &I:13:21 PM INFO: Successful creation .json file
+10/25/2018 &I:13:21 PM INFO: Program has ended.
+10/25/2018 &I:13:32 PM Average heart rate detected to be less than 40 bpm.
+10/25/2018 &I:13:32 PM INFO: Successful creation .json file
+10/25/2018 &I:13:32 PM INFO: Program has ended.
+10/25/2018 &I:13:43 PM INFO: Successful creation .json file
+10/25/2018 &I:13:43 PM INFO: Program has ended.
+10/25/2018 &I:14:06 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:06 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:07 PM Average heart rate detected to be more than 180 bpm.
+10/25/2018 &I:14:07 PM INFO: Successful creation .json file
+10/25/2018 &I:14:07 PM INFO: Program has ended.
+10/25/2018 &I:14:18 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:18 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:19 PM INFO: Successful creation .json file
+10/25/2018 &I:14:19 PM INFO: Program has ended.
+10/25/2018 &I:14:27 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:27 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:27 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:27 PM Data contains non-real or non-numerical value(s)
+10/25/2018 &I:14:29 PM INFO: Successful creation .json file
+10/25/2018 &I:14:29 PM INFO: Program has ended.
+10/25/2018 &I:14:38 PM Warning: Voltage is out of ECG range
+10/25/2018 &I:14:39 PM INFO: Successful creation .json file
+10/25/2018 &I:14:39 PM INFO: Program has ended.
